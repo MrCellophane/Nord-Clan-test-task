@@ -1,0 +1,21 @@
+{
+  "name": "nc-test",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Test task for Norde Clan",
+  "author": "Kulakova Nastya",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^16.8.3",
+    "react-dom": "^16.8.0",
+    "react-scripts": "1.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  }
+}
