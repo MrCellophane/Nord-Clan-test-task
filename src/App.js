@@ -2,37 +2,27 @@ import React, { useEffect } from 'react';
 import { Router } from 'react-router-dom';
 import { isEmpty, isNil } from 'ramda';
 
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { getSelectors, useActions } from 'store/auth';
 
 import NotAuthenticatedUserSwitch from './routeSwitches/NotAuthenticatedUserSwitch';
-import UserPageSwitch from './routeSwitches/UserPageSwitch';
+import PaymentsSwitch from './routeSwitches/PaymentsSwitch';
 import history from './utils/history';
 
-import useProfileContainer from './sharedContainers/ProfileContainer';
-
 const App = () => {
-  const { profile, loadProfile, isProfileLoading } = useProfileContainer();
+  const { currentUser } = getSelectors();
+  const { loadCurrentUser } = useActions();
 
   useEffect(() => {
-    loadProfile();
+    loadCurrentUser();
   }, []);
 
   const renderSwitch = () => {
-    if (isEmpty(profile) || isNil(profile)) {
+    if (isEmpty(currentUser) || isNil(currentUser)) {
       return <NotAuthenticatedUserSwitch />;
     }
 
-    return <UserPageSwitch />;
+    return <PaymentsSwitch />;
   };
-
-  if (isProfileLoading) {
-    return (
-      <Backdrop open>
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    );
-  }
 
   return <Router history={history}>{renderSwitch()}</Router>;
 };

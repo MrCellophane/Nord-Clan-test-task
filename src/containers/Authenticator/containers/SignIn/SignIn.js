@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -9,40 +10,33 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useFormik } from 'formik';
 import Alert from '@material-ui/lab/Alert';
+import appRoutes from 'routes/appRoutes';
 
-import ProfileRepository from 'repositories/ProfileRepository';
 import { validationSchema, initialValues } from 'forms/SignIn';
-import parseFormErrors from 'utils/parserFormErrors';
 
-import useProfileContainer from 'sharedContainers/ProfileContainer';
+import { useActions } from 'store/auth';
 
 import useStyles from './styles';
 
 const SignIn = () => {
-  const { loadProfile } = useProfileContainer();
-
-  const handleSubmitSignIn = (values, { setErrors }) => {
-    return ProfileRepository.create({
-      user: { ...values },
-    })
-      .then(() => {
-        return loadProfile();
-      })
-      .catch(error => {
-        const errors = parseFormErrors(error, ['email']);
-        setErrors({ serverSignInError: errors.email });
-      });
-  };
+  const history = useHistory();
+  const { signIn } = useActions();
 
   const formik = useFormik({
     validationSchema,
     initialValues,
-    onSubmit: handleSubmitSignIn,
+    onSubmit: ({ email, password }, { setErrors }) => {
+      return signIn(email, password)
+        .then(() => history.push(appRoutes.rootPath()))
+        .catch(() => {
+          setErrors({ email: 'Неправильный email или пароль' });
+        });
+    },
   });
 
   const classes = useStyles();
 
-  const { errors, values, handleChange, handleSubmit } = formik;
+  const { errors, values, handleChange, handleSubmit, isSubmitting } = formik;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -86,7 +80,14 @@ const SignIn = () => {
             value={values.password}
           />
           {errors.serverSignInError && <Alert severity="error">{errors.serverSignInError}</Alert>}
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            disabled={isSubmitting}
+          >
             Войти
           </Button>
         </form>

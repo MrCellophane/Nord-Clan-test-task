@@ -1,7 +1,7 @@
 FROM node:12.18.3-alpine
 
 RUN apk update && apk upgrade
-RUN apk add bash vim python py-pip
+RUN apk add bash vim python py-pip util-linux
 
 RUN mkdir /app
 WORKDIR /app

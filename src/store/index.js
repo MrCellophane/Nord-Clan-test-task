@@ -1,14 +1,14 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
-import profileReducer from './profile';
-import { UserReducers } from '../containers/User';
-import { payments } from '../containers/User/containers/NewPaymentsPage';
+import authReducer from './auth';
+import profilesReducer from './profiles';
+import paymentsReducer from './payments';
 
 const store = configureStore({
   reducer: combineReducers({
-    ...UserReducers,
-    ...payments,
-    profile: profileReducer,
+    payments: paymentsReducer,
+    profiles: profilesReducer,
+    auth: authReducer,
   }),
 });
 

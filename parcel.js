@@ -1,18 +1,13 @@
 const ParcelProxyServer = require('parcel-proxy-server');
 
-const DEFAULT_API_PORT = 3000;
+const DEFAULT_HMR_PORT = 8080;
 const DEFAULT_PROXY_PORT = 3000;
-const DEFAULT_API_HOST = 'localhost';
 
 const server = new ParcelProxyServer({
   entryPoint: './index.html',
   parcelOptions: {
+    hmrPort: process.env.HOT_MODULE_RELOAD_PORT || DEFAULT_HMR_PORT,
     noAutoinstall: true,
-  },
-  proxies: {
-    '/api': {
-      target: `http://${process.env.API_HOST || DEFAULT_API_HOST}:${process.env.API_PORT || DEFAULT_API_PORT}`,
-    },
   },
 });
 

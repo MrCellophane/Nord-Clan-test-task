@@ -5,7 +5,8 @@ import Base from 'layouts/Base';
 import Dashboard from 'layouts/Dashboard';
 
 const AppRoute = props => {
-  const { layout, title, ...rest } = props;
+  const { layout, ...rest } = props;
+
   switch (layout) {
     case 'base':
       return (
@@ -15,7 +16,7 @@ const AppRoute = props => {
       );
     case 'dashboard':
       return (
-        <Dashboard>
+        <Dashboard link={rest.path}>
           <Route {...rest} />
         </Dashboard>
       );
@@ -26,11 +27,9 @@ const AppRoute = props => {
 
 AppRoute.propTypes = {
   layout: PropTypes.oneOf(['base', 'dashboard']),
-  title: PropTypes.string,
 };
 AppRoute.defaultProps = {
   layout: 'dashboard',
-  title: null,
 };
 
 export default AppRoute;
