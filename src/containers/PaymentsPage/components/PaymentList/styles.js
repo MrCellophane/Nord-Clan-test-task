@@ -7,6 +7,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     marginLeft: 12,
     width: '98%',
+    marginTop: theme.spacing(5),
     marginBottom: theme.spacing(2),
   },
   table: {
@@ -23,6 +24,11 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: 20,
     width: 1,
+  },
+  rootFilter: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    marginLeft: 20,
   },
 }));
 

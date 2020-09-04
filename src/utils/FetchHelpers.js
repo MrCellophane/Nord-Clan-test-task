@@ -2,10 +2,8 @@ import axios from 'axios';
 import { camelize, decamelize } from 'utils/keysConverter';
 
 const { CancelToken } = axios;
-const csrfTokenInput = document.getElementsByName('csrf-token')[0];
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.post['X-CSRF-Token'] = csrfTokenInput ? csrfTokenInput.content : null;
 
 export const createRequestToken = () => CancelToken.source();
 export default {

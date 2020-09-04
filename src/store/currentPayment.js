@@ -3,15 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import PaymentsRepository from 'repositories/PaymentsRepository';
 
-const sliceName = 'UserPage';
+const sliceName = 'currentPayment';
 
 /* eslint no-param-reassign: 0 */
 
 const slice = createSlice({
   name: sliceName,
   initialState: {
-    data: [],
-    meta: {},
+    payment: null,
     processing: true,
     processingError: null,
   },
@@ -24,12 +23,8 @@ const slice = createSlice({
       state.processingError = payload.error;
       state.processing = false;
     },
-    clearProcessingError(state) {
-      state.processingError = null;
-    },
     loadSuccess(state, { payload }) {
-      state.data = payload.data;
-      state.meta = payload.meta;
+      state.payment = payload.payment;
       state.processing = false;
     },
   },
@@ -37,18 +32,18 @@ const slice = createSlice({
 
 /* eslint no-param-reassign: 1 */
 
-const { start, fail, clearProcessingError, loadSuccess } = slice.actions;
+const { start, fail, loadSuccess } = slice.actions;
 
 export const useActions = () => {
   const dispatch = useDispatch();
 
   return {
-    loadPayments: params => {
+    loadPayment: (profileId, paymentId) => {
       dispatch(start());
-      console.log('UserPaymentsRepository.loadPayments(params)');
-      return PaymentsRepository.loadPayments(params)
+
+      return PaymentsRepository.loadPayment(profileId, paymentId)
         .then(response => {
-          dispatch(loadSuccess(response));
+          dispatch(loadSuccess({ payment: response.data }));
         })
         .catch(error => {
           dispatch(fail({ error: error.message }));
@@ -56,22 +51,16 @@ export const useActions = () => {
           return Promise.reject(error);
         });
     },
-    clearProcessingError: () => {
-      dispatch(clearProcessingError());
-    },
   };
 };
 
 export const showSelectors = () => {
-  const payments = useSelector(state => state[sliceName]);
-
-  console.log('payments', payments);
+  const currentPayment = useSelector(state => state[sliceName]);
 
   return {
-    getData: () => payments.data,
-    getMeta: () => payments.meta,
-    getProcessingState: () => payments.processing,
-    getProcessingError: () => payments.processingError,
+    getPayment: () => currentPayment.payment,
+    getProcessingState: () => currentPayment.processing,
+    getProcessingError: () => currentPayment.processingError,
   };
 };
 

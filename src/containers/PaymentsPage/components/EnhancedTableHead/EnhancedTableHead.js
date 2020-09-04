@@ -13,11 +13,12 @@ const EnhancedTableHead = props => {
   };
 
   const headCells = [
-    { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-    { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-    { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-    { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-    { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+    { id: 'name', numeric: false, disablePadding: true, label: 'Наименование' },
+    { id: 'status', numeric: true, disablePadding: false, label: 'Статус' },
+    { id: 'sum', numeric: true, disablePadding: false, label: 'Сумма' },
+    { id: 'requisite', numeric: true, disablePadding: false, label: 'Реквизиты' },
+    { id: 'comment', numeric: true, disablePadding: false, label: 'Комментарий' },
+    { id: 'createdAt', numeric: true, disablePadding: false, label: 'Дата создания' },
   ];
 
   return (
@@ -50,7 +51,7 @@ const EnhancedTableHead = props => {
 };
 
 EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.shape({ visuallyHidden: PropTypes.string.isRequired }).isRequired,
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,

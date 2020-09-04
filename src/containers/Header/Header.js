@@ -12,9 +12,9 @@ import Menu from '@material-ui/core/Menu';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 
+import usePaymentsContainer from 'sharedContainers/PaymentsContainer';
+import { getSelectors as useAuthStore, useActions as useAuthActions } from 'store/auth';
 import appRoutes from 'routes/appRoutes';
-
-import { useActions } from 'store/auth';
 
 import BtnLogout from './components/BtnLogout';
 
@@ -22,9 +22,18 @@ import useStyles from './styles';
 
 const Header = props => {
   const classes = useStyles();
+  const { loadPayments } = usePaymentsContainer();
+
+  // https://learn.javascript.ru/task/debounce
+  // https://www.npmjs.com/package/debounce
+  // const loadPaymetsDeb = debounce(loadPayments, 200);
+
+  const { currentUser } = useAuthStore();
   const { link } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [search, setSearch] = useState('');
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -34,10 +43,17 @@ const Header = props => {
     setAnchorEl(null);
   };
 
-  const { logout } = useActions();
+  const { logout } = useAuthActions();
 
   const makeLogout = () => {
     logout();
+  };
+
+  const handleChange = event => {
+    const s = event.target.value;
+    setSearch(s);
+    loadPayments(currentUser.id, { limit: 99999, search: s });
+    // loadPaymetsDeb(currentUser.id, { limit: 99999, search: s });
   };
 
   return (
@@ -45,12 +61,14 @@ const Header = props => {
       <AppBar position="static">
         <Toolbar>
           <Typography>Личный кабинет</Typography>
-          {link === appRoutes.paymentsPath() && (
+          {link === appRoutes.rootPath() && (
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
               <InputBase
+                value={search}
+                onChange={handleChange}
                 placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,

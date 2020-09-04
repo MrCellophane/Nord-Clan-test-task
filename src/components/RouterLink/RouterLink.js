@@ -5,7 +5,6 @@ import cn from 'classnames';
 
 const RouterLink = props => {
   const { children, ...params } = props;
-
   return (
     <Link
       className={cn(

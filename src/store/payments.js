@@ -10,56 +10,65 @@ const sliceName = 'payments';
 const slice = createSlice({
   name: sliceName,
   initialState: {
-    data: {},
+    data: [],
     meta: {},
     processing: true,
     processingError: null,
   },
   reducers: {
-    startLoading(state) {
+    start(state) {
       state.processingError = null;
       state.processing = true;
     },
-    loadingError(state, { payload }) {
+    fail(state, { payload }) {
       state.processingError = payload.error;
       state.processing = false;
+    },
+    clearProcessingError(state) {
+      state.processingError = null;
     },
     loadSuccess(state, { payload }) {
       state.data = payload.data;
       state.meta = payload.meta;
-      state.meta = payload.meta;
+      state.processing = false;
     },
   },
 });
 
 /* eslint no-param-reassign: 1 */
 
-export const { startLoading, loadingError, loadSuccess } = slice.actions;
+const { start, fail, clearProcessingError, loadSuccess } = slice.actions;
 
 export const useActions = () => {
   const dispatch = useDispatch();
+
   return {
-    loadPayments: () => {
-      dispatch(startLoading());
-      return PaymentsRepository.loadPayments()
-        .then(data => {
-          dispatch(loadSuccess(data));
+    loadPayments: (profileId, params) => {
+      dispatch(start());
+
+      return PaymentsRepository.loadPayments(profileId, params)
+        .then(response => {
+          dispatch(loadSuccess({ data: response.data, meta: response.meta }));
         })
         .catch(error => {
-          dispatch(loadingError({ error: error.message }));
+          dispatch(fail({ error: error.message }));
 
           return Promise.reject(error);
         });
     },
+    clearProcessingError: () => {
+      dispatch(clearProcessingError());
+    },
   };
 };
 
-export const getSelectors = () => {
+export const showSelectors = () => {
   const payments = useSelector(state => state[sliceName]);
 
   return {
-    getPayments: () => payments.data,
-    getLoadingState: () => payments.processing,
+    getData: () => payments.data,
+    getMeta: () => payments.meta,
+    getProcessingState: () => payments.processing,
     getProcessingError: () => payments.processingError,
   };
 };

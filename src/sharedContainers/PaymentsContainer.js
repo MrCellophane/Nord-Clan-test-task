@@ -1,16 +1,16 @@
-// import { showSelectors, useActions } from 'containers/User/containers/UserPage/PaymentsPageSlice';
+import { showSelectors, useActions } from 'store/payments';
 
-// export default () => {
-//   const {
-//     getData: getPayment,
-//     getProcessingState: getLoadingState,
-//     getProcessingError: getLoadingError,
-//   } = showSelectors();
-//   const { loadPayments, clearProcessingErrors: clearLoadingError } = useActions();
+export default () => {
+  const {
+    getData: getPayment,
+    getProcessingState: getLoadingState,
+    getProcessingError: getLoadingError,
+  } = showSelectors();
+  const { loadPayments, clearProcessingErrors: clearLoadingError } = useActions();
 
-//   const loading = getLoadingState();
-//   const loadingError = getLoadingError();
-//   const payments = getPayment();
+  const loading = getLoadingState();
+  const loadingError = getLoadingError();
+  const payments = getPayment();
 
-//   return { payments, loadPayments, loading, loadingError, clearLoadingError };
-// };
+  return { payments, loadPayments, loading, loadingError, clearLoadingError };
+};

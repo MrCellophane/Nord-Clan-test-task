@@ -32,6 +32,7 @@
     "lodash": "^4.17.20",
     "lodash.noop": "^3.0.1",
     "lodash.uniqueid": "^4.0.1",
+    "material-ui-datetime-range-picker": "^1.0.0",
     "numeral": "^2.0.6",
     "object-to-formdata": "^2.1.0",
     "parcel-plugin-clean-dist": "^0.0.6",

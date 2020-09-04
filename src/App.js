@@ -21,7 +21,7 @@ const App = () => {
       return <NotAuthenticatedUserSwitch />;
     }
 
-    return <PaymentsSwitch />;
+    return <PaymentsSwitch currentUser={currentUser} />;
   };
 
   return <Router history={history}>{renderSwitch()}</Router>;

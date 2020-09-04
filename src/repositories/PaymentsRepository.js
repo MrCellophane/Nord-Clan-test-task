@@ -1,16 +1,21 @@
+import qs from 'qs';
 import FetchHelpers from 'utils/FetchHelpers';
 
 export default {
-  loadPayments() {
-    const path = 'https://cors-anywhere.herokuapp.com/https://5f4b74baea007b0016b1d78f.mockapi.io/api/v1/payments';
+  loadPayment(profileId, paymentId) {
+    const path = `https://5f4b74baea007b0016b1d78f.mockapi.io/api/v1/profiles/${profileId}/payments/${paymentId}`;
     return FetchHelpers.get(path);
   },
-  createPayment(params) {
-    const path = 'https://cors-anywhere.herokuapp.com/https://5f4b74baea007b0016b1d78f.mockapi.io/api/v1/payments';
-    return FetchHelpers.post(path, params);
+  loadPayments(profileId, params) {
+    const query = qs.stringify(params);
+    const path = `https://5f4b74baea007b0016b1d78f.mockapi.io/api/v1/profiles/${profileId}/payments?${query}`;
+    return FetchHelpers.get(path).then(response => ({
+      ...response,
+      data: response.data.map(p => ({ ...p, sum: parseFloat(p.sum) })),
+    }));
   },
-  destroy() {
-    const path = 'https://cors-anywhere.herokuapp.com/https://5f4b74baea007b0016b1d78f.mockapi.io/api/v1/payments';
-    return FetchHelpers.delete(path);
+  createPayment(profileId, params) {
+    const path = `https://5f4b74baea007b0016b1d78f.mockapi.io/api/v1/profiles/${profileId}/payments`;
+    return FetchHelpers.post(path, params);
   },
 };
