@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { Link } from 'react-router-dom';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -22,8 +22,6 @@ function sumDefaultValues(payments) {
     payments[0].sum,
   ]);
 }
-
-// https://momentjs.com/
 
 const PaymentList = props => {
   const { payments } = props;
@@ -88,22 +86,8 @@ const PaymentList = props => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <Filter
-          payments={payments}
-          statusValue={statusValue}
-          sumValue={sumValue}
-          sumMax={sumDefaults[1]}
-          sumMin={sumDefaults[0]}
-          setStatusValue={setStatusValue}
-          setSumValue={setSumValue}
-        />
         <TableContainer>
-          <Table
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-            aria-label="enhanced table"
-          >
+          <Table aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'} aria-label="enhanced table">
             <EnhancedTableHead
               classes={classes}
               order={order}
@@ -116,8 +100,10 @@ const PaymentList = props => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(payment => (
                   <TableRow hover role="checkbox" tabIndex={-1} key={payment.name}>
-                    <TableCell component="th" scope="row" padding="none">
-                      <Link to={appRoutes.paymentPath(payment.id)}>{payment.name}</Link>
+                    <TableCell component="th" scope="row" align="left">
+                      <Link to={appRoutes.paymentPath(payment.id)} className={classes.link}>
+                        {payment.name}
+                      </Link>
                     </TableCell>
                     <TableCell align="right">{payment.status}</TableCell>
                     <TableCell align="right">{payment.sum}</TableCell>
@@ -142,6 +128,15 @@ const PaymentList = props => {
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+        <Filter
+          payments={payments}
+          statusValue={statusValue}
+          sumValue={sumValue}
+          sumMax={sumDefaults[1]}
+          sumMin={sumDefaults[0]}
+          setStatusValue={setStatusValue}
+          setSumValue={setSumValue}
         />
       </Paper>
     </div>

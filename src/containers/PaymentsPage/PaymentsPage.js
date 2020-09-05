@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { isEmpty, isNil } from 'ramda';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 import Backdrop from '@material-ui/core/Backdrop';
 import Alert from '@material-ui/lab/Alert';
 import Container from '@material-ui/core/Container';
 
+import appRoutes from 'routes/appRoutes';
 import usePaymentsContainer from 'sharedContainers/PaymentsContainer';
 
 import PaymentList from './components/PaymentList/PaymentList';
@@ -25,8 +27,6 @@ const PaymentsPage = ({ currentUser }) => {
     );
   }
 
-  console.log(loading);
-
   return (
     <Container component="main" maxWidth="lg">
       {isNil(loadingError) || (
@@ -36,8 +36,11 @@ const PaymentsPage = ({ currentUser }) => {
           </Alert>
         </Backdrop>
       )}
-
-      {payments.length > 0 ? <PaymentList payments={payments} /> : <div>У вас еще нет платежей, создайте новый!</div>}
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <>{payments.length > 0 ? <PaymentList payments={payments} /> : <Redirect to={appRoutes.newPaymentPath()} />}</>
+      )}
     </Container>
   );
 };

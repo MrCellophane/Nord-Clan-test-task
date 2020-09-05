@@ -6,45 +6,58 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
-
-import useStyles from './styles';
+import MoneyIcon from '@material-ui/icons/Money';
 
 const Filter = props => {
-  const classes = useStyles;
   const { payments, statusValue, sumValue, sumMax, sumMin, setStatusValue, setSumValue } = props;
 
   const handleSumChange = (event, newValue) => {
     setSumValue(newValue);
   };
 
+  const paymentsStatus = payments.map(payment => payment.status);
+  const paymentsStatusWithoutDuble = [...new Set(paymentsStatus)];
+  console.log('payments', payments);
+  console.log('paymentsStatus', paymentsStatus);
+  console.log('paymentsStatusWithoutDuble', paymentsStatusWithoutDuble);
   return (
     <Grid container>
-      <Grid item xs={12} sm={3} className={classes.rootFilter}>
+      <Grid item xs={12} sm={6}>
         <Autocomplete
           multiple
           limitTags={2}
+          style={{ width: 300 }}
           id="multiple-limit-tags"
+          size="small"
           options={payments}
           getOptionLabel={option => option.status}
-          renderInput={params => <TextField {...params} variant="outlined" label="Статус" placeholder="Статус" />}
+          renderInput={params => <TextField {...params} variant="standard" label="Статус" placeholder="Статус" />}
           value={statusValue}
           onChange={(event, newValue) => {
             setStatusValue(newValue);
           }}
         />
       </Grid>
-      <Grid item xs={12} sm={3} className={classes.rootFilter}>
+      <Grid item xs={12} sm={6}>
         <Typography id="non-linear-slider" gutterBottom>
           Размер оплаты
         </Typography>
-        <Slider
-          min={sumMin}
-          max={sumMax}
-          value={sumValue}
-          onChange={handleSumChange}
-          valueLabelDisplay="auto"
-          aria-labelledby="range-slider"
-        />
+        <Grid container spacing={2}>
+          <Grid item>
+            <MoneyIcon />
+          </Grid>
+          <Grid item xs>
+            <Slider
+              style={{ width: 300 }}
+              min={sumMin}
+              max={sumMax}
+              value={sumValue}
+              onChange={handleSumChange}
+              valueLabelDisplay="auto"
+              aria-labelledby="range-slider"
+            />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

@@ -1,9 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  appBar: {
-    position: 'relative',
-  },
   layout: {
     width: 'auto',
     marginLeft: theme.spacing(2),
@@ -24,30 +21,16 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(3),
     },
   },
-  stepper: {
-    padding: theme.spacing(3, 0, 5),
+  title: {
+    marginTop: 20,
   },
-  buttons: {
+  field: {
+    width: '100%',
     display: 'flex',
-    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1),
-  },
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
+    marginTop: 20,
   },
 }));
 

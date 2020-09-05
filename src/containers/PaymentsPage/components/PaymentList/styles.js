@@ -9,10 +9,7 @@ const useStyles = makeStyles(theme => ({
     width: '98%',
     marginTop: theme.spacing(5),
     marginBottom: theme.spacing(2),
-  },
-  table: {
-    minWidth: 550,
-    marginLeft: 40,
+    padding: theme.spacing(5),
   },
   visuallyHidden: {
     border: 0,
@@ -29,6 +26,18 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     marginLeft: 20,
+  },
+  link: {
+    color: theme.palette.common.blue,
+    textDecoration: 'none',
+    '&:hover': {
+      fontWeight: 600,
+    },
+  },
+  head: {
+    backgroundColor: theme.palette.common.blue2,
+    color: theme.palette.common.white,
+    fontWeight: 600,
   },
 }));
 

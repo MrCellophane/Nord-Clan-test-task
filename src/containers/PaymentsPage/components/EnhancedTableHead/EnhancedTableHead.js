@@ -13,12 +13,12 @@ const EnhancedTableHead = props => {
   };
 
   const headCells = [
-    { id: 'name', numeric: false, disablePadding: true, label: 'Наименование' },
-    { id: 'status', numeric: true, disablePadding: false, label: 'Статус' },
-    { id: 'sum', numeric: true, disablePadding: false, label: 'Сумма' },
-    { id: 'requisite', numeric: true, disablePadding: false, label: 'Реквизиты' },
-    { id: 'comment', numeric: true, disablePadding: false, label: 'Комментарий' },
-    { id: 'createdAt', numeric: true, disablePadding: false, label: 'Дата создания' },
+    { id: 'name', numeric: false, label: 'Наименование' },
+    { id: 'status', numeric: true, label: 'Статус' },
+    { id: 'sum', numeric: true, label: 'Сумма' },
+    { id: 'requisite', numeric: true, label: 'Реквизиты' },
+    { id: 'comment', numeric: true, label: 'Комментарий' },
+    { id: 'createdAt', numeric: true, label: 'Дата создания' },
   ];
 
   return (
@@ -26,9 +26,10 @@ const EnhancedTableHead = props => {
       <TableRow>
         {headCells.map(headCell => (
           <TableCell
+            className={classes.head}
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            padding="default"
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -51,7 +52,8 @@ const EnhancedTableHead = props => {
 };
 
 EnhancedTableHead.propTypes = {
-  classes: PropTypes.shape({ visuallyHidden: PropTypes.string.isRequired }).isRequired,
+  classes: PropTypes.shape({ visuallyHidden: PropTypes.string.isRequired, head: PropTypes.string.isRequired })
+    .isRequired,
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,

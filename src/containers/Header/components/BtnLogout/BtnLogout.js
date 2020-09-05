@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '@material-ui/core/Button';
+import BootstrapButton from 'containers/Header/BootstrapButton';
 
 const BtnLogout = ({ logout, text }) => {
   return (
-    <Button color="inherit" onClick={logout}>
+    <BootstrapButton color="inherit" onClick={logout} disableRipple fullWidth>
       {text}
-    </Button>
+    </BootstrapButton>
   );
 };
 

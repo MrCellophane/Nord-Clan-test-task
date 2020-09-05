@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { debounce } from 'debounce';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -19,14 +19,14 @@ import appRoutes from 'routes/appRoutes';
 import BtnLogout from './components/BtnLogout';
 
 import useStyles from './styles';
+import BootstrapButton from './BootstrapButton';
 
 const Header = props => {
   const classes = useStyles();
   const { loadPayments } = usePaymentsContainer();
+  const { logout } = useAuthActions();
 
-  // https://learn.javascript.ru/task/debounce
-  // https://www.npmjs.com/package/debounce
-  // const loadPaymetsDeb = debounce(loadPayments, 200);
+  const loadPaymetsDeb = debounce(loadPayments, 200);
 
   const { currentUser } = useAuthStore();
   const { link } = props;
@@ -43,8 +43,6 @@ const Header = props => {
     setAnchorEl(null);
   };
 
-  const { logout } = useAuthActions();
-
   const makeLogout = () => {
     logout();
   };
@@ -52,13 +50,12 @@ const Header = props => {
   const handleChange = event => {
     const s = event.target.value;
     setSearch(s);
-    loadPayments(currentUser.id, { limit: 99999, search: s });
-    // loadPaymetsDeb(currentUser.id, { limit: 99999, search: s });
+    loadPaymetsDeb(currentUser.id, { limit: 99999, search: s });
   };
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appBarColor}>
         <Toolbar>
           <Typography>Личный кабинет</Typography>
           {link === appRoutes.rootPath() && (
@@ -79,7 +76,8 @@ const Header = props => {
             </div>
           )}
 
-          <Typography className={classes.balance}>Баланс 10000р</Typography>
+          <Typography className={classes.balance}>Баланс: </Typography>
+          <Typography>{currentUser.balance} р</Typography>
           <IconButton
             className={classes.icon}
             aria-label="account of current user"
@@ -105,17 +103,17 @@ const Header = props => {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>
-              <Button color="inherit" href={appRoutes.rootPath()}>
+            <MenuItem onClick={handleClose} disableRipple className={classes.button}>
+              <BootstrapButton href={appRoutes.rootPath()} disableRipple fullWidth>
                 Список платежей
-              </Button>
+              </BootstrapButton>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <Button color="inherit" href={appRoutes.newPaymentPath()}>
+            <MenuItem onClick={handleClose} disableRipple className={classes.button}>
+              <BootstrapButton href={appRoutes.newPaymentPath()} disableRipple fullWidth>
                 Создать платеж
-              </Button>
+              </BootstrapButton>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose} disableRippl className={classes.button}>
               <BtnLogout logout={makeLogout} text="Выход" />
             </MenuItem>
           </Menu>
