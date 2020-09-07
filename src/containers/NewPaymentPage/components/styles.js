@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  text: {
+    fontSize: 12,
+  },
 }));
 
 export default useStyles;

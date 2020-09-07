@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { debounce } from 'debounce';
+// import { debounce } from 'debounce';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -26,7 +26,7 @@ const Header = props => {
   const { loadPayments } = usePaymentsContainer();
   const { logout } = useAuthActions();
 
-  const loadPaymetsDeb = debounce(loadPayments, 200);
+  // const loadPaymetsDeb = debounce(loadPayments, 200000);
 
   const { currentUser } = useAuthStore();
   const { link } = props;
@@ -50,7 +50,7 @@ const Header = props => {
   const handleChange = event => {
     const s = event.target.value;
     setSearch(s);
-    loadPaymetsDeb(currentUser.id, { limit: 99999, search: s });
+    loadPayments(currentUser.id, { limit: 99999, search: s });
   };
 
   return (
@@ -76,8 +76,9 @@ const Header = props => {
             </div>
           )}
 
-          <Typography className={classes.balance}>Баланс: </Typography>
-          <Typography>{currentUser.balance} р</Typography>
+          <Typography className={classes.balance}>Баланс:</Typography>
+          <Typography>{currentUser.balance}</Typography>
+          <Typography className={classes.title}>р</Typography>
           <IconButton
             className={classes.icon}
             aria-label="account of current user"
@@ -113,7 +114,7 @@ const Header = props => {
                 Создать платеж
               </BootstrapButton>
             </MenuItem>
-            <MenuItem onClick={handleClose} disableRippl className={classes.button}>
+            <MenuItem onClick={handleClose} className={classes.button}>
               <BtnLogout logout={makeLogout} text="Выход" />
             </MenuItem>
           </Menu>

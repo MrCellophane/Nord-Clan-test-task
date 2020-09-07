@@ -43,3 +43,31 @@ Use `exec` command with the service name. For example, to start an interactive s
 ### Run lint
 
         $ docker-compose run --rm web yarn lint
+
+### Test User
+
+{
+"id": "1",
+"email": "Dion29@yahoo.com",
+"password": "gwPvwAUoFonAl66",
+},
+{
+"id": "2",
+"email": "Mark15@hotmail.com",
+"password": "k9JILACGsfmUeCX",
+},
+{
+"id": "3",
+"email": "Stewart62@hotmail.com",
+"password": "ZjF1lWbxPKNJFBp",
+},
+{
+"id": "4",
+"email": "Reanna.Abshire72@yahoo.com",
+"password": "LOv7haID_7iU0Dx",
+},
+{
+"id": "5",
+"email": "Fletcher33@yahoo.com",
+"password": "biP7mURvFtW0qKV",
+}

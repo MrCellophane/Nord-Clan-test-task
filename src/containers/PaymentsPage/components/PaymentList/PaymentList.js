@@ -99,7 +99,7 @@ const PaymentList = props => {
               {stableSort(filteredPayments, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(payment => (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={payment.name}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={payment.id}>
                     <TableCell component="th" scope="row" align="left">
                       <Link to={appRoutes.paymentPath(payment.id)} className={classes.link}>
                         {payment.name}

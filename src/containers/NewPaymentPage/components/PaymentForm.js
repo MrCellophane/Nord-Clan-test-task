@@ -16,7 +16,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 
 import appRoutes from 'routes/appRoutes';
 
-import { getSelectors as useAuthStore } from 'store/auth';
+import { getSelectors as useAuthStore, useActions as useAuthActions } from 'store/auth';
 import { validationSchema, initialValues } from 'forms/PaymentForm';
 import { useActions } from 'store/newPayment';
 
@@ -26,6 +26,7 @@ const PaymentForm = () => {
   const history = useHistory();
   const { createPayment } = useActions();
   const { currentUser } = useAuthStore();
+  const { updateProfile } = useAuthActions();
 
   const currentUserId = currentUser.id;
   const currentUserBalance = currentUser.balance;
@@ -40,8 +41,9 @@ const PaymentForm = () => {
       }
       return createPayment(currentUserId, { name, createdAt, status, sum, requisite, comment })
         .then(() => history.push(appRoutes.rootPath()))
-        .catch(() => {
-          setErrors({ name: 'Неправильный name или пароль' });
+        .then(() => {
+          const balance = currentUser.balance - sum;
+          return updateProfile(currentUser, { balance });
         });
     },
   });
@@ -76,11 +78,10 @@ const PaymentForm = () => {
               fullWidth
               name="status"
               label="Статус"
-              defaultValue={values}
+              defaultValue={values.status}
               type="status"
               id="status"
               onChange={handleChange}
-              value={values.status}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -97,7 +98,7 @@ const PaymentForm = () => {
               required
               fullWidth
               name="sum"
-              label="Сумма"
+              label="Сумма в рублях"
               type="sum"
               id="sum"
               onChange={handleChange}
@@ -152,7 +153,7 @@ const PaymentForm = () => {
           </Grid>
 
           <div className={classes.typography}>
-            <Typography fullWidth color="textSecondary" variant="h8">
+            <Typography fullWidth color="textSecondary" className={classes.text}>
               Дата платежа
             </Typography>
           </div>

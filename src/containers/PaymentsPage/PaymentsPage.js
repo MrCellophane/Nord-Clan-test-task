@@ -13,7 +13,7 @@ import usePaymentsContainer from 'sharedContainers/PaymentsContainer';
 import PaymentList from './components/PaymentList/PaymentList';
 
 const PaymentsPage = ({ currentUser }) => {
-  const { payments, loadPayments, loading, loadingError, clearLoadingError } = usePaymentsContainer();
+  const { payments, loadPayments, loading, loadingError } = usePaymentsContainer();
 
   useEffect(() => {
     loadPayments(currentUser.id, { limit: 99999 });
@@ -29,17 +29,16 @@ const PaymentsPage = ({ currentUser }) => {
 
   return (
     <Container component="main" maxWidth="lg">
-      {isNil(loadingError) || (
-        <Backdrop open style={{ zIndex: 999 }}>
-          <Alert severity="error" onClose={clearLoadingError}>
-            {loadingError}
-          </Alert>
-        </Backdrop>
-      )}
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <>{payments.length > 0 ? <PaymentList payments={payments} /> : <Redirect to={appRoutes.newPaymentPath()} />}</>
+        <>
+          {!isEmpty(payments) ? (
+            <PaymentList payments={payments} currentUser={currentUser} />
+          ) : (
+            <Redirect to={appRoutes.newPaymentPath()} />
+          )}
+        </>
       )}
     </Container>
   );

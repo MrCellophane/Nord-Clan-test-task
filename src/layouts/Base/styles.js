@@ -5,6 +5,7 @@ const useStyles = () => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     background: 'var(--color-whisper)',
+    backgroundColor: '#edf0f5',
     minHeight: '100vh',
     padding: '30px 30px 0',
     boxSizing: 'border-box',

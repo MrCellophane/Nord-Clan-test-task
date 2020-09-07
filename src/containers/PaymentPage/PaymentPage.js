@@ -41,7 +41,7 @@ const PaymentPage = ({ currentUser }) => {
           {currentPayment.name}
         </Typography>
         <Typography component="p" color="textSecondary" className={classes.title}>
-          Сумма
+          Сумма в рублях
         </Typography>
         <div className={classes.field}>
           <InputAdornment position="start">

@@ -17,6 +17,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     display: 'flex',
     justifyContent: 'flex-end',
+    marginRight: 12,
+    fontWeight: 600,
+  },
+  title: {
+    marginRight: 12,
   },
   search: {
     position: 'relative',

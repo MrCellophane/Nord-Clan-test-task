@@ -14,18 +14,26 @@ const slice = createSlice({
     currentUser: null,
   },
   reducers: {
-    successSignIn(state, { payload: { profile } }) {
+    successLoading(state, { payload: { profile } }) {
       state.currentUser = profile;
     },
     logout(state) {
       state.currentUser = null;
+    },
+    start(state) {
+      state.processingError = null;
+      state.processing = true;
+    },
+    fail(state, { payload }) {
+      state.processingError = payload.error;
+      state.processing = false;
     },
   },
 });
 
 /* eslint no-param-reassign: 1 */
 
-export const { successSignIn, logout } = slice.actions;
+export const { successLoading, logout, start, fail } = slice.actions;
 
 export const useActions = () => {
   const dispatch = useDispatch();
@@ -33,7 +41,8 @@ export const useActions = () => {
     loadCurrentUser: () => {
       const profile = getItem('currentUser');
       if (profile) {
-        dispatch(successSignIn({ profile }));
+        console.log('profile load', profile);
+        dispatch(successLoading({ profile }));
       }
     },
     signIn: (email, password) => {
@@ -41,7 +50,7 @@ export const useActions = () => {
         .then(({ data }) => {
           const profile = data.find(p => p.password === password);
           if (profile) {
-            dispatch(successSignIn({ profile }));
+            dispatch(successLoading({ profile }));
             setItem('currentUser', profile);
             return profile;
           }
@@ -55,6 +64,24 @@ export const useActions = () => {
     logout: () => {
       setItem('currentUser', null);
       dispatch(logout());
+    },
+
+    updateProfile: (currentUser, params) => {
+      dispatch(start());
+      const profileId = currentUser.id;
+      console.log('profileupdate', params);
+      // currentUser.balance = params.balance;
+      return ProfileRepository.updateProfile(profileId, params)
+        .then(response => {
+          setItem('currentUser', currentUser);
+          // console.log('profileupdate', profile);
+          dispatch(successLoading({ profile: response.data }));
+        })
+        .catch(error => {
+          dispatch(fail({ error: error.message }));
+
+          return Promise.reject(error);
+        });
     },
   };
 };

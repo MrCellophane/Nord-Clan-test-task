@@ -15,11 +15,6 @@ const Filter = props => {
     setSumValue(newValue);
   };
 
-  const paymentsStatus = payments.map(payment => payment.status);
-  const paymentsStatusWithoutDuble = [...new Set(paymentsStatus)];
-  console.log('payments', payments);
-  console.log('paymentsStatus', paymentsStatus);
-  console.log('paymentsStatusWithoutDuble', paymentsStatusWithoutDuble);
   return (
     <Grid container>
       <Grid item xs={12} sm={6}>

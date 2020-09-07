@@ -11,7 +11,7 @@ const Dashboard = props => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div>
       <Header link={link} />
       <div className={classes.content}>
         <div className={classes.content}>{children}</div>

@@ -10,4 +10,8 @@ export default {
   loadProfile(params) {
     return FetchHelpers.get(params);
   },
+  updateProfile(profileId, params) {
+    const path = `https://5f4b74baea007b0016b1d78f.mockapi.io/api/v1/profiles/${profileId}`;
+    return FetchHelpers.put(path, params);
+  },
 };
