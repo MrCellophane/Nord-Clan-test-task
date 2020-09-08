@@ -40,10 +40,6 @@ Use `exec` command with the service name. For example, to start an interactive s
 
         $ docker-compose exec web bash
 
-### Run lint
-
-        $ docker-compose run --rm web yarn lint
-
 ### Test User
 
 1.  email: Dion29@yahoo.com,
