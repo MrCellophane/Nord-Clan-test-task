@@ -43,7 +43,7 @@ const PaymentForm = () => {
         .then(() => history.push(appRoutes.rootPath()))
         .then(() => {
           const balance = currentUser.balance - sum;
-          return updateProfile(currentUser, { balance });
+          return updateProfile(currentUserId, { balance });
         });
     },
   });

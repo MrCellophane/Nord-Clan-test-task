@@ -21,6 +21,18 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(3),
     },
   },
+  link: {
+    color: theme.palette.common.blue,
+    textDecoration: 'none',
+    '&:hover': {
+      fontWeight: 600,
+    },
+    fontSize: 20,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 export default useStyles;

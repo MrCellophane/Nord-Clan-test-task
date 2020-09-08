@@ -41,7 +41,6 @@ export const useActions = () => {
     loadCurrentUser: () => {
       const profile = getItem('currentUser');
       if (profile) {
-        console.log('profile load', profile);
         dispatch(successLoading({ profile }));
       }
     },
@@ -66,15 +65,12 @@ export const useActions = () => {
       dispatch(logout());
     },
 
-    updateProfile: (currentUser, params) => {
+    updateProfile: (profileId, params) => {
       dispatch(start());
-      const profileId = currentUser.id;
-      console.log('profileupdate', params);
-      // currentUser.balance = params.balance;
+      const { id, balance } = { id: profileId, balance: params.balance };
       return ProfileRepository.updateProfile(profileId, params)
         .then(response => {
-          setItem('currentUser', currentUser);
-          // console.log('profileupdate', profile);
+          setItem('currentUser', { id, balance });
           dispatch(successLoading({ profile: response.data }));
         })
         .catch(error => {

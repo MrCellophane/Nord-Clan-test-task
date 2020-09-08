@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import { debounce } from 'debounce';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -25,8 +24,6 @@ const Header = props => {
   const classes = useStyles();
   const { loadPayments } = usePaymentsContainer();
   const { logout } = useAuthActions();
-
-  // const loadPaymetsDeb = debounce(loadPayments, 200000);
 
   const { currentUser } = useAuthStore();
   const { link } = props;

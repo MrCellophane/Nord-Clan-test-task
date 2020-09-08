@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 import { isEmpty, isNil } from 'ramda';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 
 import Backdrop from '@material-ui/core/Backdrop';
 import Alert from '@material-ui/lab/Alert';
 import Container from '@material-ui/core/Container';
 
-import appRoutes from 'routes/appRoutes';
 import usePaymentsContainer from 'sharedContainers/PaymentsContainer';
 
 import PaymentList from './components/PaymentList/PaymentList';
+import NotPayments from './components/NotPayments/NotPayments';
 
 const PaymentsPage = ({ currentUser }) => {
   const { payments, loadPayments, loading, loadingError } = usePaymentsContainer();
@@ -32,13 +31,7 @@ const PaymentsPage = ({ currentUser }) => {
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <>
-          {!isEmpty(payments) ? (
-            <PaymentList payments={payments} currentUser={currentUser} />
-          ) : (
-            <Redirect to={appRoutes.newPaymentPath()} />
-          )}
-        </>
+        <>{!isEmpty(payments) ? <PaymentList payments={payments} currentUser={currentUser} /> : <NotPayments />}</>
       )}
     </Container>
   );
