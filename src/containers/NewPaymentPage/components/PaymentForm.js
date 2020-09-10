@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
+import { format } from 'date-fns';
 
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -30,7 +31,7 @@ const PaymentForm = () => {
 
   const currentUserId = currentUser.id;
   const currentUserBalance = currentUser.balance;
-  const [createdAt] = new Date().toLocaleDateString().split('/');
+  const created = format(new Date(), 'dd/MM/yyyy h:m:s');
 
   const formik = useFormik({
     validationSchema,
@@ -39,6 +40,7 @@ const PaymentForm = () => {
       if (currentUserBalance < sum) {
         return setErrors({ sum: 'У вас на счету недостаточно средств' });
       }
+      const createdAt = format(new Date(), 'dd/MM/yyyy h:m:s');
       return createPayment(currentUserId, { name, createdAt, status, sum, requisite, comment })
         .then(() => history.push(appRoutes.rootPath()))
         .then(() => {
@@ -161,7 +163,7 @@ const PaymentForm = () => {
             <InputAdornment position="start">
               <CalendarTodayIcon />
             </InputAdornment>
-            <Typography fullWidth>{createdAt}</Typography>
+            <Typography fullWidth>{created}</Typography>
           </Grid>
           <Grid item xs={12} sm={12} className={classes.button}>
             <Button href={appRoutes.rootPath()} variant="contained" color="primary" style={{ width: 170 }}>
