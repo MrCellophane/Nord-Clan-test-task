@@ -31,7 +31,7 @@ const PaymentForm = () => {
 
   const currentUserId = currentUser.id;
   const currentUserBalance = currentUser.balance;
-  const created = format(new Date(), 'dd/MM/yyyy h:m:s');
+  const created = format(new Date(), 'dd/MM/yyyy HH:mm:ss');
 
   const formik = useFormik({
     validationSchema,
